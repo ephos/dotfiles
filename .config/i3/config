@@ -224,4 +224,4 @@ exec_always feh --bg-scale /home/ephos/images/wallpaper.jpg
 assign [class="Google Play Music Desktop Player"] $ws10
 
 # Use compton (requires compton)
-exec_alwaus compton -f
+exec_always compton -f
