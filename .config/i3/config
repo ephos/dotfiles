@@ -169,8 +169,10 @@ bindsym $mod+r mode "resize"
 ##
 #
 # Set gaps (i3-gaps only!)
-gaps inner 8
-gaps outer 16
+#gaps inner 8
+#gaps outer 16
+gaps inner 0
+gaps outer 0
 
 # Colors (Has to be before the bar {} declaration)
 set $bg-color			#2f343f
@@ -202,10 +204,12 @@ bar {
 		inactive_workspace	$inactive-bg-color	$inactive-bg-color	$inactive-text-color
 		urgent_workspace		$urgent-bg-color	$urgent-bg-color	$text-color
 	}
+	mode hide 
+	hidden_state hide 
+	modifier none
 }
-
-# Move workspace across monitors.
-bindsym $mod+m move workspace to output primary
+# Make the i3bar/i3blocks toggle-able.
+bindsym Mod1+b exec i3-msg bar hidden_state toggle
 
 # Lock functionality.
 bindsym $mod+shift+x exec i3lock --color "$bg-color"
