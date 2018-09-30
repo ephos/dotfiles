@@ -35,6 +35,9 @@
 *.color7:       #dee4da
 *.color15:      #ba95d0
 
-URxvt.font: xft:monaco:size=10
-URxvt.letterSpace: -3
-URxvt.scrollBar: false
+URxvt.font: 		xft:monaco:size=10
+URxvt.letterSpace: 	-3
+URxvt.scrollBar: 	false
+
+URxvt.transparent:   	true
+URxvt.shading:		30
