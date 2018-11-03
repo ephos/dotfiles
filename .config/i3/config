@@ -238,3 +238,5 @@ exec_always compton -f
 # Set randr screen layouts.
 exec_always ~/.screenlayout/monitors.sh
 
+# Run Corsair CKB utility.
+exec_always ckb-next -b
