@@ -31,10 +31,10 @@ function Write-OutputColor
 
 if (Test-Administrator)
 {
-    Write-OutputColor -Color DarkCyan -Message '[ᴑ] Installing Chocolatey...'
+    Write-OutputColor -Color DarkCyan -Message '[O] Installing Chocolatey...'
     Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-    Write-OutputColor -Color DarkCyan -Message '[ᴑ] Installing Chocolatey Applications...'
+    Write-OutputColor -Color DarkCyan -Message '[O] Installing Chocolatey Applications...'
     cinst.exe googlechrome vscode 7zip.install git.install greenshot golang dep putty.install nodejs.install vlc openssh sysinternals winscp.install ruby cmake.install python3 dotnetcore vagrant packer terraform vault Vim-Tux.install neovim etcher --confirm
 
 }
@@ -43,7 +43,7 @@ else
     Write-Warning -Message 'Administrator token missing, skipping Chocolatey steps!'
 }
 
-Write-OutputColor -Color DarkCyan -Message '[ᴑ] Installing VSCode Extensions...'
+Write-OutputColor -Color DarkCyan -Message '[O] Installing VSCode Extensions...'
 if (Test-Path -Path $vsCodeExtensionFilePath)
 {
     if (code --version)
@@ -64,16 +64,16 @@ else
     Write-Warning -Message 'VSCode extensions JSON file missing from repo, skipping!'
 }
 
-Write-OutputColor -Color DarkCyan -Message '[ᴑ] Setting PSGallery PSRepository to trusted...'
+Write-OutputColor -Color DarkCyan -Message '[O] Setting PSGallery PSRepository to trusted...'
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
-Write-OutputColor -Color DarkCyan -Message '[ᴑ] Updating/Installing modules...'
+Write-OutputColor -Color DarkCyan -Message '[O] Updating/Installing modules...'
 Install-Module PowershellGet -Scope CurrentUser -Force
 Install-Module posh-git, Pester, PSReadLine -Scope CurrentUser -Force
 
 if (Test-Administrator)
 {
-    Write-OutputColor -Color DarkCyan -Message '[ᴑ] Updating help files...'
+    Write-OutputColor -Color DarkCyan -Message '[O] Updating help files...'
     Update-Help -Force
 }
 else
@@ -83,7 +83,7 @@ else
 
 if (Test-Administrator)
 {
-    Write-OutputColor -Color DarkCyan -Message '[ᴑ] Enabling Windows Subsystem for Linux...'
+    Write-OutputColor -Color DarkCyan -Message '[O] Enabling Windows Subsystem for Linux...'
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 
 }
