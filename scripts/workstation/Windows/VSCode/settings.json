@@ -4,13 +4,11 @@
     "editor.folding": true,
     "editor.acceptSuggestionOnEnter": "off",
     "gitProjectManager.baseProjectsFolders": [
-        "C:\\Users\\ephos\\Desktop\\code\\git\\",
-        "C:\\Users\\ephos\\Desktop\\code\\go\\src\\"
+        "C:\\Users\\ephos\\Documents\\code\\git\\"
     ],
     "gitProjectManager.maxDepthRecursion": 1,
     "gitProjectManager.openInNewWindow": false,
     "gitProjectManager.searchInsideProjects": false,
-    "go.gopath": "C:\\Users\\ephos\\Desktop\\code\\go",
     "go.formatTool": "gofmt",
     "http.proxyStrictSSL": false,
     "http.proxy": "",

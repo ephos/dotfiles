@@ -1,5 +1,6 @@
 # Important Variables
 $vsCodeExtensionFilePath = '..\vscodextensions.json'
+$vsCodeSettingsFilePath = '.\VSCode\settings.json'
 $conEmuSettingsFilePath = '.\ConEmu\ConEmu.xml'
 
 # Private Functions
@@ -29,14 +30,25 @@ function Write-OutputColor
     }
 }
 
+# Get Code
+#Invoke-WebRequest -Uri 'https://github.com/ephos/dotfiles/archive/master.zip' -OutFile "$env:USERPROFILE\Desktop\dotfiles.zip"
+#Expand-Archive -Path "$env:USERPROFILE\Desktop\dotfiles.zip" -DestinationPath "$env:USERPROFILE\Desktop\dotfiles\" -Force
+
+# Setup
 if (Test-Administrator)
 {
     Write-OutputColor -Color DarkCyan -Message '[O] Installing Chocolatey...'
-    Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    powershell.exe -Command {
+        Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    }
 
     Write-OutputColor -Color DarkCyan -Message '[O] Installing Chocolatey Applications...'
-    cinst.exe googlechrome vscode 7zip.install git.install greenshot golang dep putty.install nodejs.install vlc openssh sysinternals winscp.install ruby cmake.install python3 dotnetcore vagrant packer terraform vault Vim-Tux.install neovim etcher --confirm
+    powershell.exe -Command {
+        cinst.exe googlechrome vscode 7zip.install git.install greenshot golang dep putty.install nodejs.install vlc openssh sysinternals winscp.install ruby cmake.install python3 dotnetcore vagrant packer terraform vault Vim-Tux.install neovim etcher --confirm
+    }
 
+    Write-OutputColor -Color DarkCyan -Message '[O] Refreshing environment variables post install...'
+    RefreshEnv.cmd
 }
 else
 {
@@ -48,10 +60,13 @@ if (Test-Path -Path $vsCodeExtensionFilePath)
 {
     if (code --version)
     {
+        Write-OutputColor -Color DarkCyan -Message '[O] Copying VSCode Settings...'
+        Copy-Item -Path $vsCodeSettingsFilePath -Destination "$env:USERPROFILE\AppData\Roaming\Code\User\" -Force
+
         $ext = Get-Content -Path $vsCodeExtensionFilePath | ConvertFrom-Json
         foreach ($e in $ext)
         {
-            & code --install-extension $e
+            & code --install-extension $e --user-data-dir $env:USERPROFILE\AppData\Roaming\Code\User\
         }
     }
     else
@@ -68,8 +83,9 @@ Write-OutputColor -Color DarkCyan -Message '[O] Setting PSGallery PSRepository t
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 Write-OutputColor -Color DarkCyan -Message '[O] Updating/Installing modules...'
-Install-Module PowershellGet -Scope CurrentUser -Force
-Install-Module posh-git, Pester, PSReadLine -Scope CurrentUser -Force
+Install-Module PowershellGet -Scope CurrentUser -Force -Confirm:$false
+Remove-Module -Name PowerShellGet, PackageManagement -Force
+Install-Module posh-git, Pester, PSReadLine -Scope CurrentUser -Force -Confirm:$false
 
 if (Test-Administrator)
 {
@@ -85,6 +101,8 @@ if (Test-Administrator)
 {
     Write-OutputColor -Color DarkCyan -Message '[O] Enabling Windows Subsystem for Linux...'
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+    Invoke-WebRequest -Uri 'https://aka.ms/wsl-ubuntu-1804' -OutFile Ubuntu.appx -UseBasicParsing
+    Add-AppxPackage -Path '.\Ubuntu.appx' # You can also rename appx to zip and run the exe directly.
 
 }
 else
