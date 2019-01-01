@@ -3,7 +3,7 @@ switch ($PSVersionTable.Platform)
 {
     'Windows'
     {
-        ($codePath = '{0}\code' -f $env:USERPROFILE)
+        ($codePath = '{0}\code\' -f $env:USERPROFILE)
     }
     'Unix'
     {
@@ -24,59 +24,59 @@ else
 ############################
 function prompt {
 
-        # $currentIdentity = New-Object -TypeName System.Security.Principal.WindowsPrincipal -ArgumentList @([System.Security.Principal.WindowsIdentity]::GetCurrent())
-        # $isAdmin = $currentIdentity.IsInRole([System.Security.Principal.WindowsBuiltInRole]"Administrator")
+    # $currentIdentity = New-Object -TypeName System.Security.Principal.WindowsPrincipal -ArgumentList @([System.Security.Principal.WindowsIdentity]::GetCurrent())
+    # $isAdmin = $currentIdentity.IsInRole([System.Security.Principal.WindowsBuiltInRole]"Administrator")
 
-	    $currentDirectoryLeaf = Split-Path (Get-Location) -Leaf
-	    $currentDirectoryParent = Split-Path (Get-Location) -Parent
+    $currentDirectoryLeaf = Split-Path (Get-Location) -Leaf
+    $currentDirectoryParent = Split-Path (Get-Location) -Parent
 
-	    $consoleDelimiter = [ConsoleColor]::Cyan
+    $consoleDelimiter = [ConsoleColor]::Cyan
 
-        if ($PSVersionTable.Platform -eq 'Windows')
+    if ($PSVersionTable.Platform -eq 'Windows')
+    {
+        if ($isAdmin)
         {
-            if ($isAdmin)
-            {
-                $consoleHost = [ConsoleColor]::Red
-                $currentUser = "$env:USERNAME[ADMIN]"
-            }
-            else
-            {
-                $consoleHost = [ConsoleColor]::Green
-                $currentUser = "$env:USERNAME[STANDARD]"
-            }
+            $consoleHost = [ConsoleColor]::Red
+            $currentUser = "$env:USERNAME[ADMIN]"
         }
         else
         {
-            $consoleHost = [ConsoleColor]::Blue
-            $currentUser = "$env:USER"
-        }
-
-	    $consoleLocation = [ConsoleColor]::White
-	    Write-Host "$([char]0x0A7) " -NoNewline -ForegroundColor $consoleLocation
-        Write-Host ([System.Net.Dns]::GetHostName()) -NoNewline -ForegroundColor $consoleHost
-
-	    Write-Host ' [' -NoNewline -ForegroundColor $consoleDelimiter
-	    Write-Host ($currentDirectoryLeaf) -NoNewline -ForegroundColor $consoleLocation
-        Write-Host '] ' -NoNewline -ForegroundColor $consoleDelimiter
-
-	    $shell = $Host.Ui.RawUI
-	    $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $($PSVersionTable.GitCommitId)"
-
-	    if ($DefaultVIServers)
-	    {
-		    $viServer = $DefaultVIServers.Name -join ','
-		    $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $viServer | $($PSVersionTable.GitCommitId)"
-	    }
-
-        if (Get-Module -Name posh-git -ListAvailable)
-        {
-            Write-VcsStatus
-        }
-        else
-        {
-            Write-Warning -Message 'No posh-git module found, install with "Install-Module -Name posh-git"'
+            $consoleHost = [ConsoleColor]::Green
+            $currentUser = "$env:USERNAME[STANDARD]"
         }
     }
+    else
+    {
+        $consoleHost = [ConsoleColor]::Blue
+        $currentUser = "$env:USER"
+    }
+
+    $consoleLocation = [ConsoleColor]::White
+    Write-Host "$([char]0x0A7) " -NoNewline -ForegroundColor $consoleLocation
+    Write-Host ([System.Net.Dns]::GetHostName()) -NoNewline -ForegroundColor $consoleHost
+
+    Write-Host ' [' -NoNewline -ForegroundColor $consoleDelimiter
+    Write-Host ($currentDirectoryLeaf) -NoNewline -ForegroundColor $consoleLocation
+    Write-Host '] ' -NoNewline -ForegroundColor $consoleDelimiter
+
+    $shell = $Host.Ui.RawUI
+    $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $($PSVersionTable.GitCommitId)"
+
+    if ($DefaultVIServers)
+    {
+        $viServer = $DefaultVIServers.Name -join ','
+        $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $viServer | $($PSVersionTable.GitCommitId)"
+    }
+
+    if (Get-Module -Name posh-git -ListAvailable)
+    {
+        Write-VcsStatus
+    }
+    else
+    {
+        Write-Warning -Message 'No posh-git module found, install with "Install-Module -Name posh-git"'
+    }
+}
 
     if (Get-Module -Name posh-git)
     {
