@@ -15,4 +15,25 @@ nnoremap <space> za
 
 " Syntax settings
 syntax on
-colorscheme rdark-terminal
+colorscheme xterm16
+
+" Plugins
+call plug#begin('~/.vim/myplugins')
+Plug 'OmniSharp/omnisharp-vim' ", {'for': 'cs'}
+Plug 'w0rp/ale'
+call plug#end() 
+
+" OmniSharp Section
+" This is required for OmniSharp to work.
+filetype plugin on
+" Sets Omnisharp server to 5 second timeout.
+let g:OmniSharp_timeout = 5
+" Sets ALE linter to use OmniSharp for cs files.
+let g:ale_linters = {'cs': ['OmniSharp']}
+" Don't assume first autocomplete option.
+set completeopt=longest,menuone,preview
+set previewheight=5
+
+" Use only for debugging OmniSharp
+"let g:OmniSharp_proc_debug = 1
+"let g:OmniSharp_loglevel = 'debug'
