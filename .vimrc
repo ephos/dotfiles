@@ -21,7 +21,11 @@ colorscheme xterm16
 call plug#begin('~/.vim/myplugins')
 Plug 'OmniSharp/omnisharp-vim' ", {'for': 'cs'}
 Plug 'w0rp/ale'
-call plug#end() 
+Plug 'PProvost/vim-ps1' ", {'for': 'ps1'}
+Plug 'mattn/webapi-vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'cd01/poshcomplete-vim'
+call plug#end()
 
 " OmniSharp Section
 " This is required for OmniSharp to work.
