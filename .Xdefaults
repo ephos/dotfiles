@@ -1,43 +1,49 @@
-! special
-*.foreground:   #d3d9cf
-*.background:   #070707
-*.cursorColor:  #d3d9cf
+!https://terminal.sexy/#AAAAq6urAAAA6S8vDtg53d0TO0jj-ZbiI-3aq6ur____6S8vDtg53d0TO0jj-ZbiI-3a-fn5
 
-! black
-*.color0:       #0e0e0d
-*.color8:       #6b8da3
+!URxvt.font: 		xft:monaco:size=10
+!URxvt.letterSpace: 	-4
 
-! red
-*.color1:       #181917
-*.color9:       #618ca5
-
-! green
-*.color2:       #292b28
-*.color10:      #bea0d0
-
-! yellow
-*.color3:       #41433f
-*.color11:      #829f66
-
-! blue
-*.color4:       #5f625d
-*.color12:      #bc8d4e
-
-! magenta
-*.color5:       #848781
-*.color13:      #d78aa3
-
-! cyan
-*.color6:       #aeb3aa
-*.color14:      #58857b
-
-! white
-*.color7:       #dee4da
-*.color15:      #ba95d0
-
-URxvt.font: 		xft:monaco:size=10
-URxvt.letterSpace: 	-4
-URxvt.scrollBar: 	false
+URxvt.font:     xft:bitstream vera sans mono:size=12:antialias=true
+URxvt.boldFont: xft:bitstream vera sans mono:bold:size=12:antialias=true
+URxvt.scrollBar: false
 
 URxvt.transparent:   	true
 URxvt.shading:		30
+
+! special
+*.foreground:   #ababab
+*.background:   #000000
+*.cursorColor:  #ababab
+
+! black
+*.color0:       #000000
+!*.color8:       #343434  This didn't seem to work well with both fish and pwsh
+*.color8:       #ffffff
+
+! red
+*.color1:       #e92f2f
+*.color9:       #e92f2f
+
+! green
+*.color2:       #0ed839
+*.color10:      #0ed839
+
+! yellow
+*.color3:       #dddd13
+*.color11:      #dddd13
+
+! blue
+*.color4:       #3b48e3
+*.color12:      #3b48e3
+
+! magenta
+*.color5:       #f996e2
+*.color13:      #f996e2
+
+! cyan
+*.color6:       #23edda
+*.color14:      #23edda
+
+! white
+*.color7:       #ababab
+*.color15:      #f9f9f9

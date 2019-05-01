@@ -1,0 +1,28 @@
+{
+    "gitlens.advanced.messages": {
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitProjectManager.baseProjectsFolders": [
+        "/home/ephos/code/git"
+    ],
+    "workbench.iconTheme": "material-icon-theme",
+    "team.showWelcomeMessage": false,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "cSpell.enabledLanguageIds": [
+        "markdown",
+        "php",
+        "plaintext",
+        "text"
+    ],
+    "gitlens.historyExplorer.enabled": true,
+    "vim.disableExtension": true,
+    "window.menuBarVisibility": "toggle",
+    "workbench.colorTheme": "SynthWave '84",
+    "vscode_custom_css.imports": [
+        "file:///home/ephos/.vscode/extensions/robbowen.synthwave-vscode-0.0.4//synthwave84.css"
+    ],
+    "vscode_custom_css.policy": true,
+    "extensions.ignoreRecommendations": false,
+    "workbench.startupEditor": "none",
+}

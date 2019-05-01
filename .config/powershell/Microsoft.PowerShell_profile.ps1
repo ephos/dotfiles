@@ -1,52 +1,58 @@
 #Set scripts directory.
-switch ($PSVersionTable.Platform)
-{
-    'Windows'
-    {
-        ($codePath = '{0}\code\' -f $env:USERPROFILE)
+switch ($PSVersionTable.Platform) {
+    'Windows' {
+        ($codePath = '{0}\code\' -f $env:HOME)
     }
-    'Unix'
-    {
-        ($codePath = '{0}/code/' -f $env:USERPROFILE)
+    'Unix' {
+        ($codePath = '{0}/code/' -f $env:HOME)
     }
 }
 
-if (Test-Path -Path $codePath)
-{
+if (Test-Path -Path $codePath) {
     Set-Location -Path $codePath
-}
-else
-{
+} else {
     Write-Warning -Message "No code directory found at $codePath."
 }
 
 #region PROMPT SETUP
 ############################
+# TODO: Finish Powerline Prompt
+$esc = "$([Char]27)"
+$fgclr = ''
+$bgclr = ''
+
 function prompt {
 
-    # $currentIdentity = New-Object -TypeName System.Security.Principal.WindowsPrincipal -ArgumentList @([System.Security.Principal.WindowsIdentity]::GetCurrent())
-    # $isAdmin = $currentIdentity.IsInRole([System.Security.Principal.WindowsBuiltInRole]"Administrator")
+    # TODO: Finish Powerline Prompt
+    # Microsoft Docs ANSI ESC sequences (https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
+    # Define a collection of script blocks
+    # Prompt (Right Side, No left side in this case)
+    [System.Collections.Generic.List[scriptblock]]$promptParts = @(
+        {}
+        {}
+        {}
+    )
+    $prompt = -join ($promptParts).Invoke()
+
+    if ($IsWindows) {
+        $currentIdentity = New-Object -TypeName System.Security.Principal.WindowsPrincipal -ArgumentList @([System.Security.Principal.WindowsIdentity]::GetCurrent())
+        $isAdmin = $currentIdentity.IsInRole([System.Security.Principal.WindowsBuiltInRole]"Administrator")
+    }
 
     $currentDirectoryLeaf = Split-Path (Get-Location) -Leaf
     $currentDirectoryParent = Split-Path (Get-Location) -Parent
 
     $consoleDelimiter = [ConsoleColor]::Cyan
 
-    if ($PSVersionTable.Platform -eq 'Windows')
-    {
-        if ($isAdmin)
-        {
+    if ($PSVersionTable.Platform -eq 'Windows') {
+        if ($isAdmin) {
             $consoleHost = [ConsoleColor]::Red
             $currentUser = "$env:USERNAME[ADMIN]"
-        }
-        else
-        {
+        } else {
             $consoleHost = [ConsoleColor]::Green
             $currentUser = "$env:USERNAME[STANDARD]"
         }
-    }
-    else
-    {
+    } else {
         $consoleHost = [ConsoleColor]::Blue
         $currentUser = "$env:USER"
     }
@@ -62,24 +68,17 @@ function prompt {
     $shell = $Host.Ui.RawUI
     $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $($PSVersionTable.GitCommitId)"
 
-    if ($DefaultVIServers)
-    {
-        $viServer = $DefaultVIServers.Name -join ','
-        $shell.WindowTitle = "$currentDirectoryParent | $currentUser | $viServer | $($PSVersionTable.GitCommitId)"
-    }
-
-    if (Get-Module -Name posh-git -ListAvailable)
-    {
+    if (Get-Module -Name posh-git -ListAvailable) {
         Write-VcsStatus
-    }
-    else
-    {
+    } else {
         Write-Warning -Message 'No posh-git module found, install with "Install-Module -Name posh-git"'
     }
+
+    #Write out the prompt
+    $prompt
 }
 
-    if (Get-Module -Name posh-git)
-    {
+    if (Get-Module -Name posh-git) {
         Start-SshAgent -Quiet
     }
 ############################
@@ -110,9 +109,8 @@ if ($PSVersionTable.Platform -eq 'Windows')
 ############################
 #endregion
 
-#region Custom Alias'
+#region Custom Alias
 ############################
-
 New-Alias -Name ih -Value Invoke-History -Force
 New-Alias -Name gh -Value Get-History -Force
 
