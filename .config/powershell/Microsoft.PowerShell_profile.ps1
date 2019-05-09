@@ -107,6 +107,7 @@ function prompt {
         [int]$gitBehind = 0
         [int]$gitUnTracked = 0
         [int]$gitUnStagedMod = 0
+        [int]$gitUnStagedDel = 0
         [int]$gitStagedAdd =0 
         [int]$gitStagedMod = 0
         [int]$gitStagedRen = 0
@@ -123,6 +124,7 @@ function prompt {
 
                 { $line -match '\?{2} {1}' } { $gitUnTracked++ } #UnTracked Files
                 { $line -match ' {1}M{1} {1}' } { $gitUnStagedMod++ } # UnStaged Files Modified
+                { $line -match ' {1}D{1} {1}' } { $gitUnStagedDel++ } # UnStaged Files Modified
                 { $line -match 'A{1} {2}' } { $gitStagedAdd++ } # Staged Files Added
                 { $line -match 'M{1} {2}' } { $gitStagedMod++ } # Staged Files Modified
                 { $line -match 'R{1} {2}' } { $gitStagedRen++ } # Staged Files Renamed
@@ -133,14 +135,15 @@ function prompt {
             }
         }
 
-        $unstagedorTrackedFiles = ($gitUnTracked + $gitUnStagedMod)
+        # This is for the first section of the Git prompt (unstaged/untracked files)
+        $unstagedorTrackedFiles = ($gitUnTracked + $gitUnStagedMod + $gitUnStagedDel)
+        # This is for the second section of the Git prompt (staged files)
         $stagedFiles = ($gitStagedAdd + $gitStagedMod + $gitStagedRen + $gitStagedDel)
 
         [System.Collections.Generic.List[ScriptBlock]]$promptPartsGit = @(
             { "$ansiDirectoryToGitTans"; "$rightArrowFull"; "$ansiReset" }
             { "$ansiGit"; "$gitChar"; "$ansiReset"}
             { "$ansiGit"; " $gitBranch"; "$ansiReset"}
-            #{ "$ansiGit"; " |"; "$ansiReset"}
             {
                 if ($unstagedorTrackedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
             }
@@ -148,9 +151,9 @@ function prompt {
                 if ($unstagedorTrackedFiles -gt 0) {
                     if ($gitUnTracked -gt 0) {"$ansiGit"; " ?$gitUnTracked"; "$ansiReset"}
                     if ($gitUnStagedMod -gt 0) {"$ansiGit"; " ~$gitUnStagedMod"; "$ansiReset"}
+                    if ($gitUnStagedDel -gt 0) {"$ansiGit"; " -$gitUnStagedDel"; "$ansiReset"}
                 }
             }
-            #{ "$ansiGit"; " |"; "$ansiReset"}
             {
                 if ($stagedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
             }
@@ -232,9 +235,9 @@ if ($IsWindows) {
         New-Alias -Name ssh -Value 'C:\Program Files\OpenSSH\ssh.exe' -Force
     }
     
-    if (Test-Path -Path 'C:\Program Files (x86)\Vim\vim80\vim.exe')
+    if (Test-Path -Path 'C:\Program Files\Vim\vim81\vim.exe')
     {
-        New-Alias -Name vim -Value 'C:\Program Files (x86)\Vim\vim80\vim.exe' -Force
+        New-Alias -Name vim -Value 'C:\Program Files\Vim\vim81\vim.exe' -Force
     }
 }
 ############################
