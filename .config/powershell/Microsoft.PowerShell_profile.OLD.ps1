@@ -17,23 +17,8 @@ if (Test-Path -Path $codePath) {
 #region PROMPT SETUP
 ############################
 # TODO: Finish Powerline Prompt
-$esc = "$([Char]27)"
-$fgclr = ''
-$bgclr = ''
 
 function prompt {
-
-    # TODO: Finish Powerline Prompt
-    # Microsoft Docs ANSI ESC sequences (https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences)
-    # Define a collection of script blocks
-    # Prompt (Right Side, No left side in this case)
-    [System.Collections.Generic.List[scriptblock]]$promptParts = @(
-        {}
-        {}
-        {}
-    )
-    $prompt = -join ($promptParts).Invoke()
-
     if ($IsWindows) {
         $currentIdentity = New-Object -TypeName System.Security.Principal.WindowsPrincipal -ArgumentList @([System.Security.Principal.WindowsIdentity]::GetCurrent())
         $isAdmin = $currentIdentity.IsInRole([System.Security.Principal.WindowsBuiltInRole]"Administrator")
@@ -78,9 +63,9 @@ function prompt {
     $prompt
 }
 
-    if (Get-Module -Name posh-git) {
-        Start-SshAgent -Quiet
-    }
+if (Get-Module -Name posh-git) {
+    Start-SshAgent -Quiet
+}
 ############################
 #endregion
 
