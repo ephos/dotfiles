@@ -3,10 +3,15 @@
 !URxvt.font: 		xft:monaco:size=10
 !URxvt.letterSpace: 	-4
 
-URxvt.font:     xft:bitstream vera sans mono:size=12:antialias=true
-URxvt.boldFont: xft:bitstream vera sans mono:bold:size=12:antialias=true
-URxvt.scrollBar: false
+!WITHOUT POWERLINE
+!URxvt.font:     xft:bitstream vera sans mono:size=12:antialias=true
+!URxvt.boldFont: xft:bitstream vera sans mono:bold:size=12:antialias=true
 
+!WITH POWERLINE
+URxvt.font:     xft:Noto Mono for Powerline:size=12:antialias=true
+URxvt.boldFont: xft:Noto Mono for Powerline:bold:size=12:antialias=true
+
+URxvt.scrollBar: false
 URxvt.transparent:   	true
 URxvt.shading:		30
 

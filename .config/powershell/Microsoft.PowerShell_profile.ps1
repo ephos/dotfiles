@@ -4,7 +4,7 @@ if ($IsWindows) {
     $codePath = ('{0}\code\' -f $env:USERPROFILE)
 }
 else {
-    $codePath = ('{0}/code/' -f $env:USERPROFILE)
+    $codePath = ('{0}/code/' -f $env:HOME)
 }
 
 if (Test-Path -Path $codePath -ErrorAction SilentlyContinue) {
@@ -186,7 +186,6 @@ function prompt {
     $prompt
 }
 
-
 ############################
 #endregion
 
@@ -194,12 +193,16 @@ function prompt {
 ############################
 #Set go workspace.
 if (Get-Command -Name go) {
-    if (-not (Test-Path -Path env:GOPATH)) {
+    if (-not ($env:GOPATH)) {
+        $env:GOPATH = (($go).Where({$_ -clike 'GOPATH=*'}).Split('=')[1].Replace('"',''))
+    }
+
+    if (-not (Test-Path -Path $env:GOPATH -ErrorAction SilentlyContinue)) {
         Write-Output -InputObject 'GOPATH is not setup, creating directory structure now.'
-        New-Item -ItemType Directory -Path $env:GOPATH
-        New-Item -ItemType Directory -Path $env:GOPATH\bin\
-        New-Item -ItemType Directory -Path $env:GOPATH\src\
-        New-Item -ItemType Directory -Path $env:GOPATH\pkg\
+        New-Item -ItemType Directory -Path $env:GOPATH -ErrorAction SilentlyContinue
+        New-Item -ItemType Directory -Path $env:GOPATH\bin\ -ErrorAction SilentlyContinue
+        New-Item -ItemType Directory -Path $env:GOPATH\src\ -ErrorAction SilentlyContinue
+        New-Item -ItemType Directory -Path $env:GOPATH\pkg\ -ErrorAction SilentlyContinue
     }
 }
 else {
