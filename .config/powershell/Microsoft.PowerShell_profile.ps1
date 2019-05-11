@@ -28,7 +28,7 @@ $rightArrowHalf = [Char](0xE0B1)
 $ansiReset = "$escChar[0m"
 $ansiSlowBlink = "$escChar[5m"
 
-# Decorator - RGB (Fg/Text 0,0,0) (Bg 70,167,252) 
+# Decorator - RGB (Fg/Text 0,0,0) (Bg 70,167,252)
 # Computer Name - RGB(Fg/Text 255,255,255) (Bg 70,23,145)
 # Directory - RGB(Fg/Text 0,0,0) (Bg 61,255,187)
 # Git - RGB(Fg 183,220,255) (Bg 0,0,0)
@@ -38,10 +38,10 @@ $ansiColorWhite = "255;255;255"
 $ansiColorPurple = "70;23;145"
 $ansiColorGitOrange = "241;80;47"
 $ansiColorBlue = "70;167;252"
-$ansiColorLightPurple = "201;26;204" 
+$ansiColorLightPurple = "201;26;204"
 
 $ansiDecorator = "$escChar[38;2;$ansiColorBlack;48;2;$ansiColorBlue`m"
-$ansiDecoratorToComputerNameTrans = "$escChar[38;2;$ansiColorBlue;48;2;$ansiColorPurple`m" 
+$ansiDecoratorToComputerNameTrans = "$escChar[38;2;$ansiColorBlue;48;2;$ansiColorPurple`m"
 $ansiComputerName = "$escChar[38;2;$ansiColorWhite;48;2;$ansiColorPurple`m"
 $ansiComputerNameDirectoryTrans = "$escChar[38;2;$ansiColorPurple;48;2;$ansiColorLightPurple`m"
 $ansiDirectory = "$escChar[38;2;$ansiColorBlack;48;2;$ansiColorLightPurple`m"
@@ -103,12 +103,12 @@ function prompt {
         $gitBranch = (git symbolic-ref --short -q HEAD)
         $gitStatusShort = (git status --short --branch)
 
-        [int]$gitAhead = 0 
+        [int]$gitAhead = 0
         [int]$gitBehind = 0
         [int]$gitUnTracked = 0
         [int]$gitUnStagedMod = 0
         [int]$gitUnStagedDel = 0
-        [int]$gitStagedAdd =0 
+        [int]$gitStagedAdd =0
         [int]$gitStagedMod = 0
         [int]$gitStagedRen = 0
         [int]$gitStagedDel = 0
@@ -175,7 +175,7 @@ function prompt {
         [System.Collections.Generic.List[ScriptBlock]]$promptPartsNoGit = @(
             { "$ansiDirectoryEndPrompt"; "$rightArrowFull"; "$ansiReset" }
         )
-        $prompt = -join ($promptPartsAll + $promptPartsNoGit).Invoke()        
+        $prompt = -join ($promptPartsAll + $promptPartsNoGit).Invoke()
     }
 
     # Setup window title.
@@ -194,7 +194,7 @@ function prompt {
 #Set go workspace.
 if (Get-Command -Name go) {
     if (-not ($env:GOPATH)) {
-        $env:GOPATH = (($go).Where({$_ -clike 'GOPATH=*'}).Split('=')[1].Replace('"',''))
+        $env:GOPATH = ((go env).Where({$_ -clike 'GOPATH=*'}) -split ('=') | Select-Object -Last 1 -Property @{n='GoPath';e={$_.replace('"','')}}).GoPath
     }
 
     if (-not (Test-Path -Path $env:GOPATH -ErrorAction SilentlyContinue)) {
@@ -229,15 +229,15 @@ New-Alias -Name gohome -Value Set-PathToScripts -Force
 if ($IsWindows) {
     function Copy-CorpCred {(Get-PasswordstateCredential -Domain corp -Name pleauro).GetNetworkCredential().Password | clip.exe}
     New-Alias -Name qwe -Value Copy-CorpCred -Force
-    
+
     function Get-AdminCredential {Get-PasswordstateCredential -Domain corp -Name pleauro}
     New-Alias -Name ga -Value Get-AdminCredential -Force
-    
+
     if (Test-Path -Path 'C:\Program Files\OpenSSH\ssh.exe')
     {
         New-Alias -Name ssh -Value 'C:\Program Files\OpenSSH\ssh.exe' -Force
     }
-    
+
     if (Test-Path -Path 'C:\Program Files\Vim\vim81\vim.exe')
     {
         New-Alias -Name vim -Value 'C:\Program Files\Vim\vim81\vim.exe' -Force
