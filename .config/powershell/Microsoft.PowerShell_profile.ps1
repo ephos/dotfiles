@@ -1,4 +1,7 @@
-# TODO: Finish this.
+# TODO - Git ahead / behind information
+# TODO - Arch Linux Pacman information
+# TODO - Docker environment information
+
 #Set scripts directory.
 if ($IsWindows) {
     $codePath = ('{0}\code\' -f $env:USERPROFILE)
@@ -18,20 +21,32 @@ else {
 ############################
 
 # Characters / Keys
-$decoChar = [Char](0x00A7)
+# Fun random char decorator (https://unicode.org/emoji/charts/full-emoji-list.html)
+$decoChar = @(
+    [Char](0x00A7), # The original!
+    [Char](0x2699),
+    [Char](0x2B55),
+    [Char]::ConvertFromUtf32('0x1F527'),
+    [Char]::ConvertFromUtf32('0x1F506'),
+    [Char]::ConvertFromUtf32('0x1F534'),
+    [Char]::ConvertFromUtf32('0x1F535'),
+    [Char](0x26AB),
+    [Char](0x26AA),
+    [Char]::ConvertFromUtf32('0x1F536'),
+    [Char]::ConvertFromUtf32('0x1F537'),
+    [Char]::ConvertFromUtf32('0x1F4A0'),
+    [Char]::ConvertFromUtf32('0x1F518')
+) | Get-Random
 $escChar = [Char](0x1B)
 $gitChar = [Char](0xE0A0)
 $rightArrowFull = [Char](0xE0B0)
 $rightArrowHalf = [Char](0xE0B1)
 
+
 # Colors / Font Modifiers
 $ansiReset = "$escChar[0m"
 $ansiSlowBlink = "$escChar[5m"
 
-# Decorator - RGB (Fg/Text 0,0,0) (Bg 70,167,252)
-# Computer Name - RGB(Fg/Text 255,255,255) (Bg 70,23,145)
-# Directory - RGB(Fg/Text 0,0,0) (Bg 61,255,187)
-# Git - RGB(Fg 183,220,255) (Bg 0,0,0)
 $ansiColorBlack = "0;0;0"
 $ansiColorWhite = "255;255;255"
 
@@ -242,6 +257,8 @@ if ($IsWindows) {
     {
         New-Alias -Name vim -Value 'C:\Program Files\Vim\vim81\vim.exe' -Force
     }
+} else {
+    New-Alias -Name ls -Value 'ls --color=auto'
 }
 ############################
 #endregion
