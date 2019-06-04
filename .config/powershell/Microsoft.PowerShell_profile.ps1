@@ -22,26 +22,26 @@ else {
 
 # Characters / Keys
 # Fun random char decorator (https://unicode.org/emoji/charts/full-emoji-list.html)
+
 $decoChar = @(
-    [Char](0x00A7), # The original!
-    [Char](0x2699),
-    [Char](0x2B55),
-    [Char]::ConvertFromUtf32('0x1F527'),
-    [Char]::ConvertFromUtf32('0x1F506'),
-    [Char]::ConvertFromUtf32('0x1F534'),
-    [Char]::ConvertFromUtf32('0x1F535'),
-    [Char](0x26AB),
-    [Char](0x26AA),
-    [Char]::ConvertFromUtf32('0x1F536'),
-    [Char]::ConvertFromUtf32('0x1F537'),
-    [Char]::ConvertFromUtf32('0x1F4A0'),
-    [Char]::ConvertFromUtf32('0x1F518')
+    [Char](0x00A7)#, # The original!
+    # [Char](0x2699),
+    # [Char](0x2B55),
+    # [Char]::ConvertFromUtf32('0x1F527'),
+    # [Char]::ConvertFromUtf32('0x1F506'),
+    # [Char]::ConvertFromUtf32('0x1F534'),
+    # [Char]::ConvertFromUtf32('0x1F535'),
+    # [Char](0x26AB),
+    # [Char](0x26AA),
+    # [Char]::ConvertFromUtf32('0x1F536'),
+    # [Char]::ConvertFromUtf32('0x1F537'),
+    # [Char]::ConvertFromUtf32('0x1F4A0'),
+    # [Char]::ConvertFromUtf32('0x1F518')
 ) | Get-Random
 $escChar = [Char](0x1B)
 $gitChar = [Char](0xE0A0)
 $rightArrowFull = [Char](0xE0B0)
 $rightArrowHalf = [Char](0xE0B1)
-
 
 # Colors / Font Modifiers
 $ansiReset = "$escChar[0m"
@@ -49,6 +49,8 @@ $ansiSlowBlink = "$escChar[5m"
 
 $ansiColorBlack = "0;0;0"
 $ansiColorWhite = "255;255;255"
+$ansiColorDarkRed = "136;20;2"
+$ansiColorDarkGreen = "3;82;0"
 
 $ansiColorPurple = "70;23;145"
 $ansiColorGitOrange = "241;80;47"
@@ -64,6 +66,8 @@ $ansiDirectoryEndPrompt = "$escChar[38;2;$ansiColorLightPurple`m"
 
 $ansiDirectoryToGitTans = "$escChar[38;2;$ansiColorLightPurple;48;2;$ansiColorGitOrange`m"
 $ansiGit = "$escChar[38;2;$ansiColorBlack;48;2;$ansiColorGitOrange`m"
+$ansiGitUnStaged = "$escChar[38;2;$ansiColorDarkRed;48;2;$ansiColorGitOrange`m"
+$ansiGitStaged = "$escChar[38;2;$ansiColorDarkGreen;48;2;$ansiColorGitOrange`m"
 $ansiGitEndPrompt = "$escChar[38;2;$ansiColorGitOrange`m"
 
 function prompt {
@@ -123,7 +127,7 @@ function prompt {
         [int]$gitUnTracked = 0
         [int]$gitUnStagedMod = 0
         [int]$gitUnStagedDel = 0
-        [int]$gitStagedAdd =0
+        [int]$gitStagedAdd = 0
         [int]$gitStagedMod = 0
         [int]$gitStagedRen = 0
         [int]$gitStagedDel = 0
@@ -159,25 +163,25 @@ function prompt {
             { "$ansiDirectoryToGitTans"; "$rightArrowFull"; "$ansiReset" }
             { "$ansiGit"; "$gitChar"; "$ansiReset"}
             { "$ansiGit"; " $gitBranch"; "$ansiReset"}
-            {
-                if ($unstagedorTrackedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
-            }
+            # {
+            #     if ($unstagedorTrackedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
+            # }
             {
                 if ($unstagedorTrackedFiles -gt 0) {
-                    if ($gitUnTracked -gt 0) {"$ansiGit"; " ?$gitUnTracked"; "$ansiReset"}
-                    if ($gitUnStagedMod -gt 0) {"$ansiGit"; " ~$gitUnStagedMod"; "$ansiReset"}
-                    if ($gitUnStagedDel -gt 0) {"$ansiGit"; " -$gitUnStagedDel"; "$ansiReset"}
+                    if ($gitUnTracked -gt 0) {"$ansiGitUnStaged"; " ?$gitUnTracked"; "$ansiReset"}
+                    if ($gitUnStagedMod -gt 0) {"$ansiGitUnStaged"; " ~$gitUnStagedMod"; "$ansiReset"}
+                    if ($gitUnStagedDel -gt 0) {"$ansiGitUnStaged"; " -$gitUnStagedDel"; "$ansiReset"}
                 }
             }
-            {
-                if ($stagedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
-            }
+            # {
+            #     if ($stagedFiles -gt 0) { "$ansiGit"; " |"; "$ansiReset"}
+            # }
             {
                 if ($stagedFiles -gt 0) {
-                    if ($gitStagedAdd -gt 0) {"$ansiGit"; " +$gitStagedAdd"; "$ansiReset"}
-                    if ($gitStagedMod -gt 0) {"$ansiGit"; " ~$gitStagedMod"; "$ansiReset"}
-                    if ($gitStagedRen -gt 0) {"$ansiGit"; " r$gitStagedRen"; "$ansiReset"}
-                    if ($gitStagedDel -gt 0) {"$ansiGit"; " -$gitStagedDel"; "$ansiReset"}
+                    if ($gitStagedAdd -gt 0) {"$ansiGitStaged"; " +$gitStagedAdd"; "$ansiReset"}
+                    if ($gitStagedMod -gt 0) {"$ansiGitStaged"; " ~$gitStagedMod"; "$ansiReset"}
+                    if ($gitStagedRen -gt 0) {"$ansiGitStaged"; " r$gitStagedRen"; "$ansiReset"}
+                    if ($gitStagedDel -gt 0) {"$ansiGitStaged"; " -$gitStagedDel"; "$ansiReset"}
                 }
             }
             { "$ansiGitEndPrompt"; "$rightArrowFull"; "$ansiReset" }
