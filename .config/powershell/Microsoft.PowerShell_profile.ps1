@@ -252,11 +252,13 @@ if ($IsWindows) {
     function Get-AdminCredential {Get-PasswordstateCredential -Domain corp -Name pleauro}
     New-Alias -Name ga -Value Get-AdminCredential -Force
 
+    #TODO: Change this so it just adds this to PATH if it exists.
     if (Test-Path -Path 'C:\Program Files\OpenSSH\ssh.exe')
     {
         New-Alias -Name ssh -Value 'C:\Program Files\OpenSSH\ssh.exe' -Force
     }
 
+    #TODO: Change this so it just adds this to PATH if it exists.
     if (Test-Path -Path 'C:\Program Files\Vim\vim81\vim.exe')
     {
         New-Alias -Name vim -Value 'C:\Program Files\Vim\vim81\vim.exe' -Force
