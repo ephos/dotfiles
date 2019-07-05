@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
- font pango:System San Francisco Display 8
+font pango:System San Francisco Display 8
 #font pango:monospace 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -31,7 +31,8 @@ set $mod Mod4
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec termite
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -95,16 +96,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10:Music "
+set $ws1 "1 Default"
+set $ws2 "2 Default"
+set $ws3 "3: VSCode"
+set $ws4 "4: Stuff"
+set $ws5 "5: Stuff"
+set $ws6 "6: Stuff"
+set $ws7 "7: Stuff"
+set $ws8 "8: Stuff"
+set $ws9 "9: OBS"
+set $ws10 "10:Music "
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -231,6 +232,11 @@ exec_always feh --bg-fill ~/Images/s79v0pv9c1y01.png
 
 # Workspace assignments
 assign [class="Google Play Music Desktop Player"] $ws10
+assign [class="OBS"] $ws9
+
+# Caps Lock/Num Lock with i3 Blocks
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 # Use compton (requires compton)
 exec_always compton -f
