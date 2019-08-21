@@ -217,7 +217,7 @@ function prompt {
 #Set go workspace.
 if (Get-Command -Name go) {
     if (-not ($env:GOPATH)) {
-        $env:GOPATH = ((go env).Where({$_ -clike 'GOPATH=*'}) -split ('=') | Select-Object -Last 1 -Property @{n='GoPath';e={$_.replace('"','')}}).GoPath
+        $env:GOPATH = ((go env).Where({$_ -clike '*GOPATH=*'}) -split ('=') | Select-Object -Last 1 -Property @{n='GoPath';e={$_.replace('"','')}}).GoPath
     }
 
     if (-not (Test-Path -Path $env:GOPATH -ErrorAction SilentlyContinue)) {
