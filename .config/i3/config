@@ -8,7 +8,7 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
-
+# Set mod to Windows key
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -96,15 +96,15 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1 Default"
-set $ws2 "2 Default"
-set $ws3 "3: VSCode"
-set $ws4 "4: Stuff"
-set $ws5 "5: Stuff"
-set $ws6 "6: Stuff"
-set $ws7 "7: Stuff"
-set $ws8 "8: Stuff"
-set $ws9 "9: OBS"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9:OBS"
 set $ws10 "10:Music "
 
 # switch to workspace
@@ -176,7 +176,7 @@ set $bg-color			#2f343f
 set $inactive-bg-color          #2f343f
 set $text-color                	#f3f4f5
 set $inactive-text-color        #676E7D
-set $urgent-bg-color            #E53935
+set $urgent-bg-color            #fcaa38
 set $indicator-line-color	#00ff00
 
 # Set window colors.
@@ -191,21 +191,40 @@ hide_edge_borders both
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	colors {
+        workspace_buttons no
+        position bottom
+	mode dock
+	hidden_state hide
+	modifier none
+        colors {
 		background $bg-color
 		separator #757575
 		#			border			background		text
 		focused_workspace	$bg-color		$bg-color		$text-color
 		inactive_workspace	$inactive-bg-color	$inactive-bg-color	$inactive-text-color
-		urgent_workspace		$urgent-bg-color	$urgent-bg-color	$text-color
+		urgent_workspace	$urgent-bg-color	$urgent-bg-color	$text-color
 	}
-	#mode hide
-	mode dock
+}
+
+bar {
+        workspace_buttons yes
+        position bottom
+        mode dock
 	hidden_state hide
 	modifier none
+        colors {
+		background $bg-color
+		separator #757575
+		#			border			background		text
+		focused_workspace	$bg-color		$bg-color		$text-color
+		inactive_workspace	$inactive-bg-color	$inactive-bg-color	$inactive-text-color
+		urgent_workspace	$urgent-bg-color	$urgent-bg-color	$text-color
+	}
 }
+
 # Make the i3bar/i3blocks toggle-able.
 #bindsym Mod1+b exec i3-msg bar hidden_state toggle
 
