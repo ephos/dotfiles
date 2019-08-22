@@ -22,22 +22,25 @@ else {
 
 # Characters / Keys
 # Fun random char decorator (https://unicode.org/emoji/charts/full-emoji-list.html)
+function Get-RandomPromptChar {
+    $decoChar = @(
+        [Char](0x00A7)#, # The original!
+        [Char](0x2699),
+        [Char](0x2B55),
+        [Char]::ConvertFromUtf32('0x1F527'),
+        [Char]::ConvertFromUtf32('0x1F506'),
+        [Char]::ConvertFromUtf32('0x1F534'),
+        [Char]::ConvertFromUtf32('0x1F535'),
+        [Char](0x26AB),
+        [Char](0x26AA),
+        [Char]::ConvertFromUtf32('0x1F536'),
+        [Char]::ConvertFromUtf32('0x1F537'),
+        [Char]::ConvertFromUtf32('0x1F4A0'),
+        [Char]::ConvertFromUtf32('0x1F518')
+    )
+    Get-Random -InputObject $decoChar
+}
 
-$decoChar = @(
-    [Char](0x00A7)#, # The original!
-    # [Char](0x2699),
-    # [Char](0x2B55),
-    # [Char]::ConvertFromUtf32('0x1F527'),
-    # [Char]::ConvertFromUtf32('0x1F506'),
-    # [Char]::ConvertFromUtf32('0x1F534'),
-    # [Char]::ConvertFromUtf32('0x1F535'),
-    # [Char](0x26AB),
-    # [Char](0x26AA),
-    # [Char]::ConvertFromUtf32('0x1F536'),
-    # [Char]::ConvertFromUtf32('0x1F537'),
-    # [Char]::ConvertFromUtf32('0x1F4A0'),
-    # [Char]::ConvertFromUtf32('0x1F518')
-) | Get-Random
 $escChar = [Char](0x1B)
 $gitChar = [Char](0xE0A0)
 $rightArrowFull = [Char](0xE0B0)
@@ -110,7 +113,8 @@ function prompt {
     # Prompt (Right Side, No left side in this case).  Create a list of scriptblocks.
     # While it does add a tiny bit of complexity, it makes prompt parts modular and swappable over strining Write-Host in a specific order.
     [System.Collections.Generic.List[ScriptBlock]]$promptPartsAll = @(
-        { "$ansiDecorator"; "$decoChar"; "$ansiReset" }
+        # { "$ansiDecorator"; "$decoChar"; "$ansiReset" }
+        { "$ansiDecorator"; "$(Get-RandomPromptChar)"; "$ansiReset" }
         { "$ansiDecoratorToComputerNameTrans"; "$rightArrowFull"; "$ansiReset" }
         { "$ansiComputerName"; "$([System.Net.Dns]::GetHostName())"; "$ansiReset" }
         { "$ansiComputerNameDirectoryTrans"; "$rightArrowFull"; "$ansiReset" }
@@ -252,13 +256,11 @@ if ($IsWindows) {
     function Get-AdminCredential {Get-PasswordstateCredential -Domain corp -Name pleauro}
     New-Alias -Name ga -Value Get-AdminCredential -Force
 
-    #TODO: Change this so it just adds this to PATH if it exists.
     if (Test-Path -Path 'C:\Program Files\OpenSSH\ssh.exe')
     {
         New-Alias -Name ssh -Value 'C:\Program Files\OpenSSH\ssh.exe' -Force
     }
 
-    #TODO: Change this so it just adds this to PATH if it exists.
     if (Test-Path -Path 'C:\Program Files\Vim\vim81\vim.exe')
     {
         New-Alias -Name vim -Value 'C:\Program Files\Vim\vim81\vim.exe' -Force
