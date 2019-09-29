@@ -104,8 +104,8 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9:OBS"
-set $ws10 "10:Music "
+set $ws9 "9:Discord"
+set $ws10 "10:Music ♫"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -234,7 +234,7 @@ bar {
 
 # Lock functionality.
 #bindsym $mod+shift+x exec i3lock --color "$bg-color"
-bindsym $mod+shift+x exec i3lock -i ~/Images/s79v0pv9c1y01.png
+bindsym $mod+shift+x exec i3lock -i ~/Images/lockscreen1.png -t -f 
 
 # Hardware player controls.
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #Increase volume +5%
@@ -247,11 +247,12 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrevious exec playerctl previous
 
 # Set wallpaper.
-exec_always feh --bg-fill ~/Images/s79v0pv9c1y01.png
+exec_always feh --bg-fill ~/Images/wallpaper1.jpg
 
 # Workspace assignments
+assign [class="Termite"] $ws2
 assign [class="Google Play Music Desktop Player"] $ws10
-assign [class="OBS"] $ws9
+#assign [class="Discord"] $ws9
 
 # Caps Lock/Num Lock with i3 Blocks
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks

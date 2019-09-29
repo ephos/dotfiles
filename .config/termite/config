@@ -6,8 +6,8 @@
 #cell_width_scale = 1.0
 #clickable_url = true
 dynamic_title = true
-font = Monospace 9
-font = Noto Mono for Powerline 12
+font = Cascadia\ Code\ Nerd\ Font\ Complete\ Mono 13
+#font = Noto Mono for Powerline 12
 #fullscreen = true
 #icon_name = terminal
 #mouse_autohide = false
@@ -52,7 +52,6 @@ scrollback_lines = 10000
 #background = #3f3f3f
 
 # 20% background transparency (requires a compositor)
-#background = rgba(63, 63, 63, 0.8)
 background = rgba(0, 0, 0, 0.8)
 
 # If unset, will reverse foreground and background
