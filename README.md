@@ -36,18 +36,18 @@ You can add a 'Machine Profile' with any name really.  I just keep it simple.
 
 How I ended up here.
 
-- I found `chezmoi` extremely annoying to use.
+- `chezmoi`
+  * The upfront setup seemed pretty involved if you weren't just doing the most simple scenario.
   * I don't want to manage numerous templates for small differences in something like a Hyprland/sway/i3 config.
-  * Templating my dotfiles makes abstracts it and makes it a pain to clearly see what is applied where.
-- I tried other tools like `stow`.
-  * I found them also to be a bit too perscriptive with things like symlinking.
-- I need to manage similar yet different files between my desktop and laptop.
-  * I found the [bare git repository] to be super annoying for managing differences.
+  * Templating my dotfiles abstracts them and makes it a pain to clearly see what is applied where.
+- `stow` 
+  * _"symlinks, symlinks everywhere!"_ 
+  * It was honestly an easier tool to use but a bit too perscriptive for me.
+- [Bare](https://www.atlassian.com/git/tutorials/dotfiles) `git` repo.
+  * I used this for years but found it hard to manage a file that needed to be on both machines but different.
   * I won't entertain using git branches since managing gitflow just for dotfiles feels insane.
 
-I completely admit and probably agree if you are reading this I am being too picky.
+I completely admit _and_ probably agree if you are reading this I am being too picky.
 Choice and customization are beautiful things, and this is what I choose.
-
-Simple. Done.  No more non-sense with solutions in search of problems.
 
 Also if this breaks it's 100% on me and I can live with that.
