@@ -1,0 +1,15 @@
+{
+  "name": "custom-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "powershell",
+        "path": "powershell.json"
+      },
+      {
+        "language": "ps1",
+        "path": "powershell.json"
+      }
+    ]
+  }
+}
