@@ -1,0 +1,22 @@
+#!/usr/bin/pwsh -noprofile
+if (-not (Get-Command -Name 'playerctl')) {
+    Write-Error -Message 'playerctl not found!' -ErrorAction Stop
+}
+$currentPlayers = playerctl -l
+
+switch -Regex ($currentPlayers) {
+    'chromium*' {
+        $playerData = playerctl metadata -p $_
+        $artist = ($playerData | Select-String -Pattern 'xesam:artist\s+(.*)' | ForEach-Object { $_.Matches.Groups[1].Value }).Trim()
+        $title = ($playerData | Select-String -Pattern 'xesam:title\s+(.*)' | ForEach-Object { $_.Matches.Groups[1].Value }).Trim()
+        $album = ($playerData | Select-String -Pattern 'xesam:album\s+(.*)' | ForEach-Object { $_.Matches.Groups[1].Value }).Trim()
+        ("Artist: {0}`nTitle: {1}`nAlbum: {2}") -f $artist, $title, $album
+        break
+    }
+    'vlc' {
+        break
+    }
+    default {
+        hyprctl notify 3 2000 "rgb(f54242)" "fontsize:24 No player found by playerctl"
+    }
+}

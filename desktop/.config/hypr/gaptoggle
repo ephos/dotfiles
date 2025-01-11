@@ -1,0 +1,20 @@
+#!/usr/bin/pwsh -noprofile
+$currentState = (hyprctl getoption general:gaps_in -j) | ConvertFrom-Json
+
+switch -Regex ($currentState.custom) {
+    '5' {
+        hyprctl keyword general:gaps_in 0
+        hyprctl keyword general:gaps_out 0
+        hyprctl keyword decoration:rounding 0
+        hyprctl notify 1 2000 "rgb(45008f)" "fontsize:24 Turning Gaps Off"
+    }
+    '0' {
+        hyprctl keyword general:gaps_in 5
+        hyprctl keyword general:gaps_out 10
+        hyprctl keyword decoration:rounding 10
+        hyprctl notify 1 2000 "rgb(45008f)" "fontsize:24 Turning Gaps On"
+    }
+    default {
+        hyprctl notify 3 2000 "rgb(f54242)" "fontsize:24 Golly Gee, Something Broke! 🙁"
+    }
+}
