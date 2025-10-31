@@ -1,0 +1,5 @@
+require("pkg.lazy")
+require("core.keymap")
+require("core.lsp-keymap")
+require("core.autocmd")
+require("core.option")

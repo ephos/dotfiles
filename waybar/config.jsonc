@@ -1,0 +1,175 @@
+// -*- mode:jsonc -*-
+{
+	"layer": "top",
+	"modules-left": [
+        "custom/launcher",
+        "mpris"
+    ],
+	"modules-center": [
+        "sway/workspaces",
+        "sway/mode"
+        //"sway/window"
+    ],
+	"modules-right": [
+        "custom/update",
+        "custom/micinput",
+        //"backlight",
+        //"battery",
+        "pulseaudio",
+        "cpu",
+        "memory",
+        "network",
+        "temperature",
+        "clock",
+        "tray"
+    ],
+    // MODULES LEFT
+    "custom/launcher":{
+        "format": "  ",
+        "on-click": "wofi --show drun",
+        "on-click-right": "killall wofi"
+    },
+    "mpris": {
+        "format": "  {player_icon} {artist} - {title}",
+        "format-paused": "  {status_icon} <i>{artist} - {title} | {position}/{length}</i>",
+        "player-icons": {
+            "default": "▶",
+            "mpv": "🎵"
+        },
+        "status-icons": {
+            "paused": "⏸"
+        }
+    },
+    // MODULES CENTER
+    "sway/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "active-only": false,
+        "format-icons": {
+            /*"1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "active": "",
+            "default": ""
+            "5": "",*/
+            "urgent": "",
+        },
+        "sort-by-number": true
+    },
+    // MODULES RIGHT
+	"custom/micinput": {
+        "format": " {}",
+        "exec": "pactl get-source-volume @DEFAULT_SOURCE@ | grep -oP '\\d+%+' | head -n 1",
+        "on-click":"pactl set-source-volume $(pactl get-default-source) 100%",
+        "tooltip": false,
+        "interval": 1,
+	},
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "{icon} {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["", "", ""]
+		}
+	},
+	"network": {
+		"tooltip": false,
+		"format-wifi": "  {essid} {ipaddr}",
+		"format-ethernet": " {ifname} {ipaddr}"
+	},
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "active-only": false,
+        "format-icons": {
+            "urgent": ""
+            /*"7": "7 ",*/
+            /*"active": "",*/
+            /*"default": ""*/
+        },
+        "sort-by-number": true
+    },
+	"tray":{
+		"icon-size":18,
+		"spacing": 10
+	},
+    "clock": {
+        "interval" : 60,
+        "format": " {:%H:%M  %Y/%m/%d}",
+            "tooltip-format": "<tt><big>{calendar}</big></tt>",
+        "calendar": {
+            "mode"          : "year",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffffff'><b>{}</b></span>",
+                "days":       "<span color='#7100c2'><b>{}</b></span>",
+                "weeks":      "<span color='#17d8ff'><b>W{}</b></span>",
+                "weekdays":   "<span color='#00ffa6'><b>{}</b></span>",
+                "today":      "<span color='#ff00d4'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-scroll-up": "tz_up",
+            "on-scroll-down": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+    "cpu": {
+        "interval": 15,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "temperature": {
+        "interval": 10,
+        "format": " {temperatureC}°C",
+        "format-critical": " {temperatureC}°C",
+        "hwmon-path": "/sys/devices/platform/asus-ec-sensors/hwmon/hwmon4/temp2_input",
+        "critical-threshold": 78,
+        "max-length": 10
+    },
+    "custom/update": {
+        "format": " {} ",
+        "exec": "pacman -Qu 2>/dev/null | wc -l",
+        "tooltip": true,
+        "tooltip-format": "
+        <b>Clean Deps:</b> <i>pacman -Rns $(pacman -Qdt)</i>\n
+        <b>Clean Package Cache:</b> <i>pacman -Sc</i>\n
+        <b>Query Package:</b> <i>pacman -Qq | grep packagename</i>\n
+        <b>Query Package Info:</b> <i>pacman -Qi | grep packagename</i>\n
+        ",
+        "interval": 60
+    }
+    /*
+	"backlight": {
+		"tooltip": false,
+		"format": " {}%",
+		"interval":1,
+        "on-scroll-up": "light -A 5",
+		"on-scroll-down": "light -U 5"
+	},
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+    */
+}
