@@ -2,7 +2,8 @@ return {
     'saghen/blink.cmp',
     dependencies = {
         'rafamadriz/friendly-snippets',
-        'onsails/lspkind.nvim'
+        'onsails/lspkind.nvim',
+        'nvim-tree/nvim-web-devicons'
     },
     version = '1.*',
     ---@module 'blink.cmp'
@@ -22,7 +23,7 @@ return {
         },
         completion = {
             documentation = {
-                border = 'double',
+                --border = 'double',
                 auto_show = false,
             },
             menu = {
@@ -35,15 +36,19 @@ return {
                         kind_icon = {
                             text = function(ctx)
                                 local icon = ctx.kind_icon
-                                if vim.tbl_contains({ "Path" }, ctx.source_name) then
-                                    local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+
+                                -- Path source → use devicons
+                                if ctx.source_name == "Path" then
+                                    local dev_icon = require("nvim-web-devicons").get_icon(ctx.label)
                                     if dev_icon then
                                         icon = dev_icon
                                     end
                                 else
-                                    icon = require("lspkind").symbolic(ctx.kind, {
-                                        mode = "symbol",
-                                    })
+                                    -- All other sources → use lspkind symbol_map
+                                    local ok, lspkind = pcall(require, "lspkind")
+                                    if ok then
+                                        icon = lspkind.symbol_map[ctx.kind] or icon
+                                    end
                                 end
 
                                 return icon .. ctx.icon_gap
