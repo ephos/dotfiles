@@ -1,7 +1,7 @@
 -------------------------------------------------
 -- Keymaps
 -------------------------------------------------
--- Use space-pv to enter netrw 
+-- Use space-pv to enter netrw
 vim.g.mapleader = " "
 --vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 --vim.keymap.set("n", "<leader>pb", vim.cmd.Vex)
@@ -26,7 +26,30 @@ vim.keymap.set("n", "<A-k>", ":m .-2<CR>==")
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 
+-- Esc to exit term mode
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+
 -- Messing around
-vim.keymap.set("n", "<leader>b", function ()
+vim.keymap.set("n", "<leader>b", function()
     print("You're doing great Rob!")
+end)
+
+-------------------------------------------------------------------------------
+
+-- TOGGLETERM run lines of code
+local Terminal = require("toggleterm.terminal").Terminal
+
+local repl = Terminal:new({
+    direction = "horizontal",
+    hidden = true,
+})
+
+vim.keymap.set("n", "<leader>t", function()
+    repl:toggle()
+end)
+
+vim.keymap.set("n", "<leader>r", function()
+    local line = vim.api.nvim_get_current_line()
+    --repl:send(line, true) --only works for bash/zsh
+    repl:send(line .. "\r")
 end)

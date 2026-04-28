@@ -1,55 +1,42 @@
 return {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
+    lazy = false,
+    config = function()
+        -- FIX 1: The module path has changed on the main branch
+        local ts = require('nvim-treesitter')
 
-  "nvim-treesitter/nvim-treesitter",
-  branch = "master",
-  build = ":TSUpdate",
-  lazy = false,
+        -- FIX 2: Force Git to avoid the tarball extraction errors from before
+        require("nvim-treesitter.install").prefer_git = true
 
-  config = function()
-      require('nvim-treesitter.configs').setup({
-          -- A list of parser names, or "all"
-          ensure_installed = {
-              "c", 
-              "css", 
-              "bash", 
-              "dockerfile", 
-              "gdscript", 
-              "gdshader", 
-              "godot_resource", 
-              "go", 
-              "help",
-              "html", 
-              "json", 
-              "lua", 
-              "markdown", 
-              "python", 
-              "regex", 
-              "ruby", 
-              "rust", 
-              "vim", 
-              "yaml", 
-              "zig", 
-          },
+        ts.setup({
+            -- 'help' is now 'vimdoc' in 0.12+
+            ensure_installed = {
+                "c", "css", "bash", "dockerfile", "gdscript", "gdshader",
+                "godot_resource", "go", "vimdoc", "html", "json", "lua",
+                "markdown", "markdown_inline", "powershell", "python", "regex",
+                "ruby", "rust", "vim", "yaml", "zig",
+            },
 
-          -- Install parsers synchronously (only applied to `ensure_installed`)
-          sync_install = false,
+            sync_install = false,
+            auto_install = true,
 
-          -- Automatically install missing parsers when entering buffer
-          -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-          auto_install = true,
-
-          ignore_install = { "help" },
-
-          highlight = {
-            -- `false` will disable the whole extension
-            enable = true,
-
-            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-            -- Using this option may slow down your editor, and you may see some duplicate highlights.
-            -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = false,
-          },
+            highlight = {
+                enable = true,
+                -- Setting this to true is usually what breaks Markdown in 0.12
+                additional_vim_regex_highlighting = false,
+            },
         })
     end,
 }
+
+
+
+-- [
+-- # Remove the plugin code itself so Lazy.nvim forces a fresh clone of 'main'
+-- rm -rf ~/.local/share/nvim/lazy/nvim-treesitter
+--
+-- # Remove all old compiled parsers (crucial for Arch 12.1)
+-- rm -rf ~/.local/share/nvim/tree-sitter-parsers
+-- ]

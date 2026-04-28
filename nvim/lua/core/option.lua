@@ -11,6 +11,7 @@ vim.g.have_nerd_font = 1
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.wrap = false
+vim.opt.fillchars = { eob = ' ' }
 
 -- Visual Indictaor
 vim.opt.cursorline = true
